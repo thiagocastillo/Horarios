@@ -43,17 +43,18 @@
 
   h2{font-family:"Space Grotesk",sans-serif;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:38px 0 14px;font-weight:500}
 
-  .months{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+  .months{display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:18px}
   .month{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
   .month h3{font-family:"Space Grotesk",sans-serif;font-size:19px;margin:0 0 12px;letter-spacing:-.01em}
   .dow{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:5px}
   .dow span{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-soft);text-align:center;letter-spacing:.06em}
   .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
-  .day{border:1px solid var(--line);border-radius:8px;min-height:74px;padding:5px 5px 6px;background:#fff;position:relative}
+  .day{border:1px solid var(--line);border-radius:8px;min-height:82px;padding:5px 4px 6px;background:#fff;position:relative;min-width:0;overflow:hidden}
   .day.empty{border:none;background:transparent}
   .day.off{background:#F3F5F8;border-style:dashed}
   .num{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);display:block;margin-bottom:3px}
   .ev{border-radius:5px;padding:3px 5px;font-size:10.5px;line-height:1.25;margin-bottom:3px;font-weight:500;
+      overflow-wrap:anywhere;word-break:break-word;min-width:0;
       border-left:3px solid transparent;background:#F4F5F8;color:var(--ink)}
   .ev.dwym{border-left-color:var(--dwym)}
   .ev.bd{border-left-color:var(--bd)}
@@ -65,7 +66,7 @@
   .ev.hand{background:#fff;border:1px dashed var(--line);border-left-width:3px;border-left-style:solid}
   .day.hot::after{content:"";position:absolute;top:-1px;right:-1px;width:0;height:0;
       border-top:12px solid var(--alert);border-left:12px solid transparent;border-top-right-radius:8px}
-  .off-label{font-size:10.5px;color:var(--ink-soft);font-style:italic}
+  .off-label{font-size:10px;color:var(--ink-soft);font-style:italic;overflow-wrap:anywhere;line-height:1.2}
 
   table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
   th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
@@ -92,7 +93,7 @@
   .agenda .ev{margin-bottom:4px;font-size:12.5px;padding:5px 8px}
   .agenda .ev:last-child{margin-bottom:0}
 
-  @media (max-width:640px){
+  @media (max-width:900px){
     body{padding:20px 14px 48px}
     .months{grid-template-columns:1fr;gap:14px}
     .dow,.grid{display:none}
@@ -185,7 +186,7 @@ const EV = {
 
  "2026-10-05":[{c:"dwym",t:"UT6 React Native",k:"clase"}],
  "2026-10-07":[{c:"dwym",t:"UT6 React Native",k:"clase"}],
- "2026-10-09":[{c:"bd",t:"Sale la letra del Obligatorio",k:"hand"}],
+ "2026-10-09":[{c:"bd",t:"Letra del Obligatorio",k:"hand"}],
  "2026-10-10":[{c:"etica",t:"Presentación de casos",k:"exam"}],
  "2026-10-14":[{c:"dwym",t:"UT6 React Native",k:"clase"}],
  "2026-10-16":[{c:"bd",t:"BD documentales",k:"clase"}],
@@ -199,24 +200,24 @@ const EV = {
 
  "2026-11-04":[{c:"dwym",t:"UT8 Proyecto",k:"clase"}],
  "2026-11-06":[{c:"bd",t:"Entrega del Obligatorio",k:"hand"}],
- "2026-11-07":[{c:"etica",t:"Encuentro final de contenidos",k:"clase"}],
+ "2026-11-07":[{c:"etica",t:"Encuentro 7",k:"clase"}],
  "2026-11-09":[{c:"dwym",t:"UT8 Proyecto",k:"clase"}],
  "2026-11-11":[{c:"dwym",t:"UT8 Proyecto",k:"clase"}],
  "2026-11-13":[{c:"bd",t:"Defensa del Obligatorio",k:"exam"}],
  "2026-11-16":[{c:"dwym",t:"Entrega del proyecto",k:"hand"}],
  "2026-11-18":[{c:"dwym",t:"Defensa del proyecto",k:"exam"}],
- "2026-11-20":[{c:"bd",t:"Teorema CAP · ACID vs BASE",k:"clase"}],
+ "2026-11-20":[{c:"bd",t:"CAP · ACID vs BASE",k:"clase"}],
  "2026-11-21":[{c:"etica",t:"Prueba final",k:"exam"}],
  "2026-11-23":[{c:"dwym",t:"Epílogo",k:"clase"}],
- "2026-11-25":[{c:"dwym",t:"Epílogo · última clase",k:"clase"}],
+ "2026-11-25":[{c:"dwym",t:"Epílogo · última",k:"clase"}],
  "2026-11-27":[{c:"bd",t:"Examen final",k:"exam"}]
 };
 
 const OFF = {
  "2026-09-28":"Semana UCU","2026-09-29":"Semana UCU","2026-09-30":"Semana UCU",
  "2026-10-01":"Semana UCU","2026-10-02":"Semana UCU","2026-10-03":"Semana UCU",
- "2026-10-12":"Feriado · Descubrimiento de América",
- "2026-11-02":"Feriado · Día de los Difuntos"
+ "2026-10-12":"Feriado",
+ "2026-11-02":"Feriado"
 };
 
 const HOT = ["2026-09-11","2026-09-12","2026-10-23","2026-10-24","2026-10-28","2026-11-13","2026-11-18","2026-11-21","2026-11-27","2026-08-31"];
@@ -231,7 +232,8 @@ const host = document.getElementById("months");
   const total = new Date(2026,m+1,0).getDate();
   let cells="", agenda="";
   const first = (new Date(2026,m,1).getDay()+6)%7; // 0 = lunes
-  for(let i=0;i<Math.min(first,6);i++) cells+='<div class="day empty"></div>';
+  const lead = first===6 ? 0 : first; // el domingo no ocupa columna
+  for(let i=0;i<lead;i++) cells+='<div class="day empty"></div>';
   for(let d=1;d<=total;d++){
     const dt=new Date(2026,m,d), col=(dt.getDay()+6)%7;
     if(col===6) continue; // domingos fuera
@@ -280,6 +282,7 @@ document.getElementById("notes").innerHTML =
   "Los simulacros de DWYM (26/8, 21/9, 26/10) no puntúan, pero se dan en clase. " +
   "Ética exige 75% de asistencia y 65% de desempeño, con mínimo 40% en la prueba final. " +
   "BD y DWYM también piden 75% de asistencia; en DWYM las notas de equipo se multiplican por tu asistencia. " +
+  "Feriados: 12 de octubre (Descubrimiento de América) y 2 de noviembre (Día de los Difuntos), ambos lunes de DWYM. " +
   "Los temas semanales de Bases de Datos son estimados a partir del cronograma por semana del programa.";
 </script>
 </body>
