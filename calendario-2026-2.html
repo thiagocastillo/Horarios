@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semestre 2 · 2026 — DWYM / Bases de Datos I / Ética</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEFF3;
+    --card:#FFFFFF;
+    --ink:#16202B;
+    --ink-soft:#5C6873;
+    --line:#D3D9E0;
+    --dwym:#4B36D6;
+    --bd:#C2570A;
+    --etica:#0B6E63;
+    --alert:#B3123C;
+    --r:10px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif; font-size:15px; line-height:1.5;
+    padding:28px 20px 64px;
+  }
+  .wrap{max-width:1120px;margin:0 auto}
+
+  header{margin-bottom:26px}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  h1{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(28px,5vw,44px);line-height:1.05;margin:6px 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink-soft);max-width:60ch}
+
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .chip{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;display:flex;gap:10px;align-items:flex-start}
+  .dot{width:10px;height:10px;border-radius:3px;margin-top:5px;flex:none}
+  .chip b{display:block;font-size:14px}
+  .chip span{font-size:12.5px;color:var(--ink-soft)}
+  .d-dwym{background:var(--dwym)} .d-bd{background:var(--bd)} .d-etica{background:var(--etica)}
+
+  h2{font-family:"Space Grotesk",sans-serif;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:38px 0 14px;font-weight:500}
+
+  .months{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+  .month{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .month h3{font-family:"Space Grotesk",sans-serif;font-size:19px;margin:0 0 12px;letter-spacing:-.01em}
+  .dow{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:5px}
+  .dow span{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-soft);text-align:center;letter-spacing:.06em}
+  .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+  .day{border:1px solid var(--line);border-radius:8px;min-height:74px;padding:5px 5px 6px;background:#fff;position:relative}
+  .day.empty{border:none;background:transparent}
+  .day.off{background:#F3F5F8;border-style:dashed}
+  .num{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);display:block;margin-bottom:3px}
+  .ev{border-radius:5px;padding:3px 5px;font-size:10.5px;line-height:1.25;margin-bottom:3px;font-weight:500;
+      border-left:3px solid transparent;background:#F4F5F8;color:var(--ink)}
+  .ev.dwym{border-left-color:var(--dwym)}
+  .ev.bd{border-left-color:var(--bd)}
+  .ev.etica{border-left-color:var(--etica)}
+  .ev.exam{color:#fff;font-weight:600}
+  .ev.exam.dwym{background:var(--dwym)}
+  .ev.exam.bd{background:var(--bd)}
+  .ev.exam.etica{background:var(--etica)}
+  .ev.hand{background:#fff;border:1px dashed var(--line);border-left-width:3px;border-left-style:solid}
+  .day.hot::after{content:"";position:absolute;top:-1px;right:-1px;width:0;height:0;
+      border-top:12px solid var(--alert);border-left:12px solid transparent;border-top-right-radius:8px}
+  .off-label{font-size:10.5px;color:var(--ink-soft);font-style:italic}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
+  th{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);background:#F7F8FA}
+  tr:last-child td{border-bottom:none}
+  td.date{font-family:"IBM Plex Mono",monospace;white-space:nowrap;font-weight:600}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px;color:#fff;white-space:nowrap}
+  .tag.dwym{background:var(--dwym)} .tag.bd{background:var(--bd)} .tag.etica{background:var(--etica)}
+  tr.peak td.date{color:var(--alert)}
+
+  .hot-weeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .hot{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--alert);border-radius:12px;padding:14px 16px}
+  .hot b{font-family:"Space Grotesk",sans-serif;display:block;margin-bottom:6px;font-size:15px}
+  .hot ul{margin:0;padding-left:16px;font-size:13px;color:var(--ink-soft)}
+  .hot li{margin-bottom:3px}
+
+  .agenda{display:none}
+  .agenda .row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .agenda .row:last-child{border-bottom:none}
+  .agenda .row.off{opacity:.6}
+  .agenda .d{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-soft);flex:none;width:52px;padding-top:2px}
+  .agenda .d b{display:block;font-size:16px;color:var(--ink);font-weight:600}
+  .agenda .body{flex:1;min-width:0}
+  .agenda .ev{margin-bottom:4px;font-size:12.5px;padding:5px 8px}
+  .agenda .ev:last-child{margin-bottom:0}
+
+  @media (max-width:640px){
+    body{padding:20px 14px 48px}
+    .months{grid-template-columns:1fr;gap:14px}
+    .dow,.grid{display:none}
+    .agenda{display:block}
+    .month{padding:14px}
+    .legend{flex-direction:column}
+    .chip{width:100%}
+    th,td{padding:9px 10px;font-size:13px}
+    td.date{font-size:12px}
+    .tag{font-size:10.5px;padding:2px 6px}
+  }
+
+  footer{margin-top:36px;font-size:12.5px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:14px}
+  @media print{body{background:#fff;padding:0}.month,table,.hot,.chip{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">UCU · Ingeniería en Computación</div>
+  <h1>Segundo semestre 2026</h1>
+  <p class="sub">Clases, parciales, entregas y defensas de las tres materias en una sola grilla. Del 3 de agosto al 27 de noviembre.</p>
+
+  <div class="legend">
+    <div class="chip"><i class="dot d-dwym"></i><div><b>Desarrollo Web y Mobile</b><span>Lunes y miércoles · 18:00–21:00</span></div></div>
+    <div class="chip"><i class="dot d-bd"></i><div><b>Bases de Datos I</b><span>Viernes · 18:00–21:00</span></div></div>
+    <div class="chip"><i class="dot d-etica"></i><div><b>Ética Profesional</b><span>Sábados (fechas puntuales) · 9:00</span></div></div>
+  </div>
+</header>
+
+<h2>Grilla del semestre</h2>
+<div class="months" id="months"></div>
+
+<h2>Evaluaciones, entregas y defensas</h2>
+<table id="evals">
+  <thead><tr><th>Fecha</th><th>Materia</th><th>Instancia</th></tr></thead>
+  <tbody></tbody>
+</table>
+
+<h2>Semanas para cuidar</h2>
+<div class="hot-weeks">
+  <div class="hot"><b>21 – 24 de octubre</b>
+    <ul><li>Vie 23: Parcial 2 de Bases de Datos</li><li>Sáb 24: prueba escrita de Ética</li><li>Lun 26 y mié 28: simulacro y Prueba 3 de DWYM</li></ul></div>
+  <div class="hot"><b>11 – 12 de setiembre</b>
+    <ul><li>Vie 11: Parcial 1 de Bases de Datos</li><li>Sáb 12: presentación de casos de Ética</li><li>Y el 23 cae la Prueba 2 de DWYM</li></ul></div>
+  <div class="hot"><b>13 – 21 de noviembre</b>
+    <ul><li>Vie 13: defensa del Obligatorio de BD</li><li>Lun 16: entrega del proyecto DWYM</li><li>Mié 18: defensa del proyecto DWYM</li><li>Sáb 21: prueba final de Ética</li></ul></div>
+</div>
+
+<footer id="notes"></footer>
+
+</div>
+
+<script>
+const M = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","setiembre","octubre","noviembre","diciembre"];
+const DOW = ["Lun","Mar","Mié","Jue","Vie","Sáb"];
+
+// tipo: clase | exam | hand
+const EV = {
+ "2026-08-03":[{c:"dwym",t:"Prólogo",k:"clase"}],
+ "2026-08-05":[{c:"dwym",t:"UT1 HTML y CSS",k:"clase"}],
+ "2026-08-07":[{c:"bd",t:"Evolución de las BD",k:"clase"}],
+ "2026-08-08":[{c:"etica",t:"Encuentro 1 · 8 h",k:"clase"}],
+ "2026-08-10":[{c:"dwym",t:"UT1 HTML y CSS",k:"clase"}],
+ "2026-08-12":[{c:"dwym",t:"UT2 JavaScript",k:"clase"}],
+ "2026-08-14":[{c:"bd",t:"BD relacionales",k:"clase"}],
+ "2026-08-17":[{c:"dwym",t:"UT2 JavaScript",k:"clase"}],
+ "2026-08-19":[{c:"dwym",t:"UT3 REST y async",k:"clase"}],
+ "2026-08-21":[{c:"bd",t:"SQL",k:"clase"}],
+ "2026-08-22":[{c:"etica",t:"Encuentro 2",k:"clase"}],
+ "2026-08-24":[{c:"dwym",t:"UT3 REST y async",k:"clase"}],
+ "2026-08-26":[{c:"dwym",t:"Simulacro Prueba 1",k:"clase"}],
+ "2026-08-28":[{c:"bd",t:"SQL",k:"clase"}],
+ "2026-08-29":[{c:"etica",t:"Prueba escrita",k:"exam"}],
+ "2026-08-31":[{c:"dwym",t:"Prueba 1",k:"exam"}],
+
+ "2026-09-02":[{c:"dwym",t:"UT4 React",k:"clase"}],
+ "2026-09-04":[{c:"bd",t:"SQL",k:"clase"}],
+ "2026-09-07":[{c:"dwym",t:"UT4 React",k:"clase"}],
+ "2026-09-09":[{c:"dwym",t:"UT4 React",k:"clase"}],
+ "2026-09-11":[{c:"bd",t:"Parcial 1",k:"exam"}],
+ "2026-09-12":[{c:"etica",t:"Presentación de casos",k:"exam"}],
+ "2026-09-14":[{c:"dwym",t:"UT5 SPA con React",k:"clase"}],
+ "2026-09-16":[{c:"dwym",t:"UT5 SPA con React",k:"clase"}],
+ "2026-09-18":[{c:"bd",t:"SQL",k:"clase"}],
+ "2026-09-21":[{c:"dwym",t:"Simulacro Prueba 2",k:"clase"}],
+ "2026-09-23":[{c:"dwym",t:"Prueba 2",k:"exam"}],
+ "2026-09-25":[{c:"bd",t:"Álgebra relacional",k:"clase"}],
+
+ "2026-10-05":[{c:"dwym",t:"UT6 React Native",k:"clase"}],
+ "2026-10-07":[{c:"dwym",t:"UT6 React Native",k:"clase"}],
+ "2026-10-09":[{c:"bd",t:"Sale la letra del Obligatorio",k:"hand"}],
+ "2026-10-10":[{c:"etica",t:"Presentación de casos",k:"exam"}],
+ "2026-10-14":[{c:"dwym",t:"UT6 React Native",k:"clase"}],
+ "2026-10-16":[{c:"bd",t:"BD documentales",k:"clase"}],
+ "2026-10-19":[{c:"dwym",t:"UT7 RN avanzado",k:"clase"}],
+ "2026-10-21":[{c:"dwym",t:"UT7 RN avanzado",k:"clase"}],
+ "2026-10-23":[{c:"bd",t:"Parcial 2",k:"exam"}],
+ "2026-10-24":[{c:"etica",t:"Prueba escrita",k:"exam"}],
+ "2026-10-26":[{c:"dwym",t:"Simulacro Prueba 3",k:"clase"}],
+ "2026-10-28":[{c:"dwym",t:"Prueba 3",k:"exam"}],
+ "2026-10-30":[{c:"bd",t:"Clave-valor",k:"clase"}],
+
+ "2026-11-04":[{c:"dwym",t:"UT8 Proyecto",k:"clase"}],
+ "2026-11-06":[{c:"bd",t:"Entrega del Obligatorio",k:"hand"}],
+ "2026-11-07":[{c:"etica",t:"Encuentro final de contenidos",k:"clase"}],
+ "2026-11-09":[{c:"dwym",t:"UT8 Proyecto",k:"clase"}],
+ "2026-11-11":[{c:"dwym",t:"UT8 Proyecto",k:"clase"}],
+ "2026-11-13":[{c:"bd",t:"Defensa del Obligatorio",k:"exam"}],
+ "2026-11-16":[{c:"dwym",t:"Entrega del proyecto",k:"hand"}],
+ "2026-11-18":[{c:"dwym",t:"Defensa del proyecto",k:"exam"}],
+ "2026-11-20":[{c:"bd",t:"Teorema CAP · ACID vs BASE",k:"clase"}],
+ "2026-11-21":[{c:"etica",t:"Prueba final",k:"exam"}],
+ "2026-11-23":[{c:"dwym",t:"Epílogo",k:"clase"}],
+ "2026-11-25":[{c:"dwym",t:"Epílogo · última clase",k:"clase"}],
+ "2026-11-27":[{c:"bd",t:"Examen final",k:"exam"}]
+};
+
+const OFF = {
+ "2026-09-28":"Semana UCU","2026-09-29":"Semana UCU","2026-09-30":"Semana UCU",
+ "2026-10-01":"Semana UCU","2026-10-02":"Semana UCU","2026-10-03":"Semana UCU",
+ "2026-10-12":"Feriado · Descubrimiento de América",
+ "2026-11-02":"Feriado · Día de los Difuntos"
+};
+
+const HOT = ["2026-09-11","2026-09-12","2026-10-23","2026-10-24","2026-10-28","2026-11-13","2026-11-18","2026-11-21","2026-11-27","2026-08-31"];
+const NAME = {dwym:"Desarrollo Web y Mobile", bd:"Bases de Datos I", etica:"Ética Profesional"};
+
+function key(y,m,d){return `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`}
+
+const host = document.getElementById("months");
+[7,8,9,10].forEach(m=>{
+  const box = document.createElement("section");
+  box.className="month";
+  const total = new Date(2026,m+1,0).getDate();
+  let cells="", agenda="";
+  const first = (new Date(2026,m,1).getDay()+6)%7; // 0 = lunes
+  for(let i=0;i<Math.min(first,6);i++) cells+='<div class="day empty"></div>';
+  for(let d=1;d<=total;d++){
+    const dt=new Date(2026,m,d), col=(dt.getDay()+6)%7;
+    if(col===6) continue; // domingos fuera
+    const k=key(2026,m,d);
+    let inner=`<span class="num">${d}</span>`, cls="day";
+    if(OFF[k]){cls+=" off"; inner+=`<div class="off-label">${OFF[k]}</div>`}
+    (EV[k]||[]).forEach(e=>{
+      const extra = e.k==="exam" ? " exam" : (e.k==="hand" ? " hand" : "");
+      inner+=`<div class="ev ${e.c}${extra}">${e.t}</div>`;
+    });
+    if(HOT.includes(k)) cls+=" hot";
+    cells+=`<div class="${cls}">${inner}</div>`;
+
+    const evs = EV[k]||[];
+    if(evs.length || OFF[k]){
+      let b = evs.map(e=>{
+        const extra = e.k==="exam" ? " exam" : (e.k==="hand" ? " hand" : "");
+        return `<div class="ev ${e.c}${extra}">${e.t}</div>`;
+      }).join("");
+      if(!evs.length) b = `<div class="off-label">${OFF[k]}</div>`;
+      agenda += `<div class="row${OFF[k]&&!evs.length?" off":""}">
+        <div class="d">${DOW[col]}<b>${d}</b></div><div class="body">${b}</div></div>`;
+    }
+  }
+  box.innerHTML=`<h3>${M[m].charAt(0).toUpperCase()+M[m].slice(1)}</h3>
+    <div class="dow">${DOW.map(x=>`<span>${x}</span>`).join("")}</div>
+    <div class="grid">${cells}</div>
+    <div class="agenda">${agenda}</div>`;
+  host.appendChild(box);
+});
+
+const tb=document.querySelector("#evals tbody");
+Object.keys(EV).sort().forEach(k=>{
+  EV[k].filter(e=>e.k!=="clase").forEach(e=>{
+    const [y,mm,dd]=k.split("-").map(Number);
+    const tr=document.createElement("tr");
+    if(HOT.includes(k)) tr.className="peak";
+    tr.innerHTML=`<td class="date">${dd} ${M[mm-1]}</td>
+      <td><span class="tag ${e.c}">${NAME[e.c]}</span></td>
+      <td>${e.t}</td>`;
+    tb.appendChild(tr);
+  });
+});
+
+document.getElementById("notes").innerHTML =
+  "Los simulacros de DWYM (26/8, 21/9, 26/10) no puntúan, pero se dan en clase. " +
+  "Ética exige 75% de asistencia y 65% de desempeño, con mínimo 40% en la prueba final. " +
+  "BD y DWYM también piden 75% de asistencia; en DWYM las notas de equipo se multiplican por tu asistencia. " +
+  "Los temas semanales de Bases de Datos son estimados a partir del cronograma por semana del programa.";
+</script>
+</body>
+</html>
